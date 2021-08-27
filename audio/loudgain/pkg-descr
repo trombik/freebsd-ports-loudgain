@@ -1,0 +1,5 @@
+loudgain is a loudness normalizer that scans music files and calculates
+loudness-normalized gain and loudness peak values according to the EBU R128
+standard, and can optionally write ReplayGain-compatible metadata.
+
+WWW: https://github.com/Moonbase59/loudgain

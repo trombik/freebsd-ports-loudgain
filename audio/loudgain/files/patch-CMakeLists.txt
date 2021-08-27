@@ -1,0 +1,46 @@
+--- CMakeLists.txt.orig	2019-09-06 15:31:19 UTC
++++ CMakeLists.txt
+@@ -18,10 +18,7 @@ SET(INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
+ 
+ INCLUDE(FindPkgConfig)
+ 
+-IF (APPLE)
+-  # Fix linking on 10.14+. See https://stackoverflow.com/questions/54068035
+-  LINK_DIRECTORIES(/usr/local/lib)
+-ENDIF (APPLE)
++LINK_DIRECTORIES(%%PREFIX%%/lib)
+ 
+ 
+ PKG_CHECK_MODULES(LAVC libavcodec REQUIRED)
+@@ -51,9 +48,11 @@ INCLUDE_DIRECTORIES(
+   ${CMAKE_CURRENT_BINARY_DIR}
+ )
+ 
+-# Mac OS X has no pty.h
++# Try to detect libutil
+ INCLUDE (CheckIncludeFiles)
+ CHECK_INCLUDE_FILES (pty.h HAVE_PTY_H)
++CHECK_INCLUDE_FILES (util.h HAVE_UTIL_H)
++CHECK_INCLUDE_FILES (libutil.h HAVE_LIBUTIL_H)
+ 
+ CONFIGURE_FILE("config.h.in" "config.h")
+ 
+@@ -72,15 +71,15 @@ SET_TARGET_PROPERTIES(loudgain PROPERTIES
+   COMPILE_FLAGS "-Wall -pedantic -g"
+ )
+ 
+-SET(CMAKE_C_FLAGS "-std=gnu99 -D_GNU_SOURCE")
++SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -D_GNU_SOURCE")
+ 
+-SET(CMAKE_CXX_FLAGS "-std=gnu++11 -D_GNU_SOURCE")
++SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -D_GNU_SOURCE")
+ 
+ INSTALL(TARGETS loudgain DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+ 
+ INSTALL(FILES
+   ${PROJECT_SOURCE_DIR}/docs/loudgain.1
+-  DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1
++  DESTINATION ${CMAKE_INSTALL_PREFIX}/man/man1
+ )
+ INSTALL(PROGRAMS
+   ${PROJECT_SOURCE_DIR}/bin/rgbpm
