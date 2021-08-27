@@ -1,5 +1,3 @@
-# $FreeBSD$
-
 PORTNAME=	loudgain
 DISTVERSION=	0.6.8
 CATEGORIES=	audio
@@ -16,9 +14,10 @@ LIB_DEPENDS=	\
 	libtag.so:audio/taglib \
 	libebur128.so:audio/libebur128
 
+USES=	cmake pkgconfig shebangfix
 USE_GITHUB=	yes
 GH_TUPLE=	Moonbase59:loudgain:v${DISTVERSION}
-USES=	cmake pkgconfig shebangfix
+USE_GITHUB=	yes
 SHEBANG_FILES=	bin/rgbpm
 MANDIRS=	${WRKSRC}/docs
 
